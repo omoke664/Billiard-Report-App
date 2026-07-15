@@ -1,0 +1,53 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id                  Int      @id @default(autoincrement())
+  
+  // Core Daraja C2B / Till Number Fields
+  transId             String   @unique @map("trans_id")       // M-Pesa Receipt Number (e.g., QFG3DSO5EI)
+  transTime           String   @map("trans_time")             // Timestamp from M-Pesa (e.g., 20260715143022)
+  transAmount         String   @map("trans_amount")           // Amount paid (e.g., "100.00")
+  businessShortCode   String   @map("business_short_code")    // Your Till Number
+  
+  // Customer Details
+  msisdn              String   @map("msisdn")                 // Customer Phone Number (e.g., 254712345678)
+  firstName           String?  @map("first_name")             // Customer First Name
+  middleName          String?  @map("middle_name")            // Customer Middle Name
+  lastName            String?  @map("last_name")              // Customer Last Name
+  
+  // Billiard Business Specifics
+  billRefNumber       String?  @map("bill_ref_number")        // Account Reference! (Use this to track "Table 1", "Table 2", or Customer Name)
+  
+  // Metadata
+  orgAccountBalance   String?  @map("org_account_balance")    // Till balance after transaction
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("transactions")
+}
+// Add this to the bottom of prisma/schema.prisma
+
+model User {
+  id                  Int      @id @default(autoincrement())
+  username            String   @unique
+  passwordHash        String   @map("password_hash")
+  securityQuestion    String   @map("security_question")
+  securityAnswer      String   @map("security_answer")
+  enableNotifications Boolean  @default(true) @map("enable_notifications")
+  dailySummary        Boolean  @default(false) @map("daily_summary")
+  sessionTimeout      Int      @default(30) @map("session_timeout") // in minutes
+  displayDensity      String   @default("standard") @map("display_density") // 'compact', 'standard', 'comfortable'
+  
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
