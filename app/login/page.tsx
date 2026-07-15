@@ -3,16 +3,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, User, Loader2, AlertCircle } from "lucide-react";
+import { Lock, User, Loader2, AlertCircle, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
-// Point to your backend auth endpoint
-const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api/mpesa', '/api/auth') || "http://localhost:3000/api/auth";
+const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api/mpesa', '/api/auth') || "http://localhost:3001/api/auth";
 
 export default function LoginPage() {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
             if (res.data.success) {
                 localStorage.setItem("auth_token", res.data.token);
                 localStorage.setItem("auth_username", res.data.username);
-                router.push("/"); // Redirect to dashboard
+                router.push("/");
             }
         } catch (err: any) {
             setError(err.response?.data?.error || "Login failed. Please check your credentials.");
@@ -37,17 +37,15 @@ export default function LoginPage() {
 
     return (
         <main className="min-h-screen bg-light-bg dark:bg-dark-bg flex flex-col items-center justify-center p-4 transition-colors">
-            <div className="w-full max-w-md bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-2xl shadow-plaque dark:shadow-plaque-dark p-8">
-                {/* Header */}
+            <div className="w-full max-w-md bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-2xl shadow-plaque dark:shadow-plaque-dark p-8 animate-rise-in">
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-navy/10 dark:bg-gold/10 text-navy dark:text-gold mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-navy/10 dark:bg-gold/10 text-navy dark:text-gold mb-4 mx-auto">
                         <Lock size={28} />
                     </div>
                     <h1 className="text-2xl font-display font-bold text-light-text dark:text-dark-text">Welcome Back</h1>
                     <p className="text-sm text-light-muted dark:text-dark-muted mt-1">Sign in to your Billiard Tracker</p>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleLogin} className="space-y-5">
                     {error && (
                         <div className="p-3 rounded-lg bg-coral/10 border border-coral/30 text-burgundy dark:text-coral text-xs flex items-center gap-2">
@@ -75,19 +73,29 @@ export default function LoginPage() {
                         <div className="relative">
                             <Lock size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-light-muted dark:text-dark-muted" />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-light-secondary dark:bg-dark-secondary border border-light-border dark:border-dark-border rounded-lg pl-10 pr-4 py-3 text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-gold transition-all"
+                                className="w-full bg-light-secondary dark:bg-dark-secondary border border-light-border dark:border-dark-border rounded-lg pl-10 pr-12 py-3 text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-gold transition-all"
                                 placeholder="Enter your password"
                                 required
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-light-muted dark:text-dark-muted hover:text-navy dark:hover:text-gold transition-colors"
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
                         </div>
                     </div>
 
-                    <div className="flex justify-end">
-                        <a href="/recover" className="text-xs font-semibold text-navy dark:text-gold hover:underline">
+                    <div className="flex justify-between items-center text-xs">
+                        <a href="/recover" className="font-semibold text-navy dark:text-gold hover:underline">
                             Forgot Password?
+                        </a>
+                        <a href="/register" className="font-semibold text-navy dark:text-gold hover:underline">
+                            Create Account
                         </a>
                     </div>
 
