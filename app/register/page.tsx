@@ -14,6 +14,7 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [securityQuestion, setSecurityQuestion] = useState("");
     const [securityAnswer, setSecurityAnswer] = useState("");
     const [loading, setLoading] = useState(false);
@@ -107,7 +108,21 @@ export default function RegisterPage() {
                             <label className="block text-xs font-semibold uppercase tracking-wider text-light-muted dark:text-dark-muted mb-2">Confirm Password</label>
                             <div className="relative">
                                 <Lock size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-light-muted dark:text-dark-muted" />
-                                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full bg-light-secondary dark:bg-dark-secondary border border-light-border dark:border-dark-border rounded-lg pl-10 pr-4 py-3 text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-gold transition-all" placeholder="Re-enter password" required />
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full bg-light-secondary dark:bg-dark-secondary border border-light-border dark:border-dark-border rounded-lg pl-10 pr-12 py-3 text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-navy dark:focus:ring-gold transition-all"
+                                    placeholder="Re-enter password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-light-muted dark:text-dark-muted hover:text-navy dark:hover:text-gold transition-colors"
+                                >
+                                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
                             </div>
                         </div>
 
