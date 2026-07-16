@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Register Routes
 app.use('/api/mpesa', mpesaRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/login', authRoutes);
 app.use('/api/settings', settingsRoutes);
 
 // Health check
