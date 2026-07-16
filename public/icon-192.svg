@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="Billiard Tracker">
+  <rect width="192" height="192" rx="40" fill="#0a1628"/>
+  <circle cx="96" cy="96" r="70" fill="#ffb347"/>
+  <path d="M66 70h60a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H86v30" fill="none" stroke="#0a1628" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="76" cy="116" r="8" fill="#0a1628"/>
+  <circle cx="116" cy="76" r="10" fill="#0a1628"/>
+</svg>

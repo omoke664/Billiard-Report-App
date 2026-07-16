@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* Tailwind v4 defaults dark: to a media query (OS preference). This
+   opts back into class-based toggling, so our ThemeToggle button
+   actually controls it via the .dark class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Light Mode — Beige/Cream Theme */
+  --color-light-bg: #faf9f6;
+  --color-light-card: #ffffff;
+  --color-light-secondary: #f3eedd;
+  --color-light-border: #e3d5b8;
+  --color-light-text: #1a1a1a;
+  --color-light-muted: #5c5548;
+
+  /* Dark Mode — Midnight Blue Theme */
+  --color-dark-bg: #0a1628;
+  --color-dark-card: #101f3d;
+  --color-dark-secondary: #0f1e3d;
+  --color-dark-border: #1e3a5f;
+  --color-dark-text: #f5f5dc;
+  --color-dark-muted: #8fa3bf;
+
+  /* Shared accent vocabulary — used contextually per theme */
+  --color-navy: #1e3a5f;
+  --color-burgundy: #7a1f2b;
+  --color-gold: #ffb347;
+  --color-coral: #ff6b6b;
+
+  /* Type: display face (Space Grotesk, "--font-heading" from next/font)
+     for headings and every numeral; body face (Inter, "--font-body")
+     for everything else. */
+  --font-display: var(--font-heading), system-ui, sans-serif;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+
+  --shadow-plaque: 0 1px 2px rgba(26, 26, 26, 0.04), 0 6px 16px rgba(26, 26, 26, 0.06);
+  --shadow-plaque-dark: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-rise-in: rise-in 0.4s ease-out both;
+  --animate-collapse-down: collapse-down 0.2s ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes collapse-down {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
