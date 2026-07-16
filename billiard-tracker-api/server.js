@@ -12,8 +12,7 @@ app.use(express.json());
 
 // Register Routes
 app.use('/api/mpesa', mpesaRoutes);
-app.use('/api/login', authRoutes);
-app.use('/api/settings', settingsRoutes);
+app.use('/api/auth', authRoutes);
 
 // Health check
 app.get('/', (req, res) => {
