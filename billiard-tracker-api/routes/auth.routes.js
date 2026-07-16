@@ -28,6 +28,7 @@ router.post('/login', async (req, res) => {
 
         res.json({ success: true, token, username: user.username });
     } catch (error) {
+        console.error("Server error:", error)
         res.status(500).json({ error: 'Server error' });
     }
 });
@@ -72,8 +73,70 @@ router.post('/recover-password', async (req, res) => {
 
         res.json({ success: true, message: 'Password updated successfully. Please login.' });
     } catch (error) {
+        console.error("Server error")
         res.status(500).json({ error: 'Server error' });
     }
 });
 
+// ADD THIS TO routes/auth.routes.js
+
+router.post('/register', async (req, res) => {
+    try {
+        const { username, password, securityQuestion, securityAnswer } = req.body;
+
+        // Check if user already exists
+        const existingUser = await prisma.user.findUnique({ where: { username } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username already exists' });
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10);
+        const answerHash = await bcrypt.hash(securityAnswer.toLowerCase(), 10);
+
+        await prisma.user.create({
+            data: {
+                username,
+                passwordHash,
+                securityQuestion,
+                securityAnswer: answerHash,
+            },
+        });
+
+        res.json({ success: true, message: 'Account created successfully! Please log in.' });
+    } catch (error) {
+        console.error("Registration error:", error);
+        res.status(500).json({ error: 'Server error during registration' });
+    }
+});
+
+
+
+router.post('/register', async (req, res) => {
+    try {
+        const { username, password, securityQuestion, securityAnswer } = req.body;
+
+        // Check if user already exists
+        const existingUser = await prisma.user.findUnique({ where: { username } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username already exists' });
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10);
+        const answerHash = await bcrypt.hash(securityAnswer.toLowerCase(), 10);
+
+        await prisma.user.create({
+            data: {
+                username,
+                passwordHash,
+                securityQuestion,
+                securityAnswer: answerHash,
+            },
+        });
+
+        res.json({ success: true, message: 'Account created successfully! Please log in.' });
+    } catch (error) {
+        console.error("Registration error:", error);
+        res.status(500).json({ error: 'Server error during registration' });
+    }
+});
 module.exports = router;

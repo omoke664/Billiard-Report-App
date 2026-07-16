@@ -8,10 +8,12 @@ const settingsRoutes = require('./routes/settings.routes');
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Crucial: allows Express to read Safaricom's JSON callback
+app.use(express.json()); 
 
 // Register Routes
 app.use('/api/mpesa', mpesaRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Health check
 app.get('/', (req, res) => {
